@@ -87,9 +87,9 @@ STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 NOTION_DATABASE_API_KEY = os.environ.get("NOTION_DATABASE_API_KEY")
 NOTION_DATABASE_ID = "REDACTED_NOTION_DATABASE_ID"
 # OPTIONAL
-include_played_free_games = True
-enable_item_update = False
-enable_filter = True
+include_played_free_games = 'true'
+enable_item_update = 'true'
+enable_filter = ‘false'
 ```
 
 You should replace these config with your own api keys.
