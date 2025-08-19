@@ -2,6 +2,8 @@
 
 🌐 **语言**: [English](./README_en.md) / [中文](./README.md)
 
+效果参考：https://colorfulblog.notion.site/Game-OS-e48032dd37d747149bef346b2b823900
+
 ---
 
 
