@@ -7,13 +7,13 @@ from features.review import get_steam_review_info
 from features.steamstore import get_steam_store_info
 
 # CONFIG
-STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
+STEAM_API_KEY = "REDACTED_STEAM_API_KEY"
 # get from https://steamcommunity.com/dev/apikey
-STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
+STEAM_USER_ID = "REDACTED_STEAM_USER_ID"
 # get from your steam profile https://steamcommunity.com/profiles/{STEAM_USER_ID}
-NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
+NOTION_API_KEY = "REDACTED_NOTION_API_KEY"
 # https://developers.notion.com/docs/create-a-notion-integration
-NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
+NOTION_DATABASE_ID = "REDACTED_NOTION_DATABASE_ID"
 # https://developers.notion.com/reference/retrieve-a-database
 # OPTIONAL
 include_played_free_games = os.environ.get("include_played_free_games") or 'true'
@@ -24,7 +24,7 @@ enable_filter = os.environ.get("enable_filter") or 'false'
 #set to 'false' by default 
 
 # MISC
-MAX_RETRIES = 20
+MAX_RETRIES = 1
 RETRY_DELAY = 2
 
 def send_request_with_retry(
@@ -53,7 +53,7 @@ def send_request_with_retry(
 
 # steamapi
 def get_owned_game_data_from_steam():
-    url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?"
+    url = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?"
     url = url + "key=" + STEAM_API_KEY
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&include_appinfo=True"
@@ -71,7 +71,7 @@ def get_owned_game_data_from_steam():
 
 
 def query_achievements_info_from_steam(game):
-    url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?"
+    url = "https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?"
     url = url + "key=" + STEAM_API_KEY
     url = url + "&steamid=" + STEAM_USER_ID
     url = url + "&appid=" + f"{game['appid']}"
@@ -262,7 +262,7 @@ def update_item_to_notion_database(page_id, game, achievements_info, review_text
                         "type": "text",
                         "text": {"content": steam_store_data["info"]},
                     }
-                ],
+                ]
             },
             "tags": {
                 "type": "multi_select",
@@ -393,7 +393,8 @@ if __name__ == "__main__":
     for game in owned_game_data["response"]["games"]:
         is_add = True
         achievements_info = {}
-        achievements_info = get_achievements_count(game)
+        achievements_info["total"] = 0
+        achievements_info["achieved"] = 0
         review_text = get_steam_review_info(game["appid"], STEAM_USER_ID)
         steam_store_data = get_steam_store_info(game["appid"])
         logger.info(f"{game['name']} ' review is {review_text}")
@@ -421,3 +422,4 @@ if __name__ == "__main__":
         else:
             logger.info(f"{game['name']} does not exist! creating new item!")
             add_item_to_notion_database(game, achievements_info, review_text, steam_store_data)
+        break
