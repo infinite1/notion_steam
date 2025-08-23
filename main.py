@@ -422,4 +422,3 @@ if __name__ == "__main__":
         else:
             logger.info(f"{game['name']} does not exist! creating new item!")
             add_item_to_notion_database(game, achievements_info, review_text, steam_store_data)
-        break
