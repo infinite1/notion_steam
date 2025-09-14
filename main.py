@@ -7,13 +7,13 @@ from features.review import get_steam_review_info
 from features.steamstore import get_steam_store_info
 
 # CONFIG
-STEAM_API_KEY = "REDACTED_STEAM_API_KEY"
+STEAM_API_KEY = os.environ.get("STEAM_API_KEY")
 # get from https://steamcommunity.com/dev/apikey
-STEAM_USER_ID = "REDACTED_STEAM_USER_ID"
+STEAM_USER_ID = os.environ.get("STEAM_USER_ID")
 # get from your steam profile https://steamcommunity.com/profiles/{STEAM_USER_ID}
-NOTION_API_KEY = "REDACTED_NOTION_API_KEY"
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
 # https://developers.notion.com/docs/create-a-notion-integration
-NOTION_DATABASE_ID = "REDACTED_NOTION_DATABASE_ID"
+NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID")
 # https://developers.notion.com/reference/retrieve-a-database
 # OPTIONAL
 include_played_free_games = os.environ.get("include_played_free_games") or 'true'
@@ -24,7 +24,7 @@ enable_filter = os.environ.get("enable_filter") or 'false'
 #set to 'false' by default 
 
 # MISC
-MAX_RETRIES = 1
+MAX_RETRIES = 20
 RETRY_DELAY = 2
 
 def send_request_with_retry(
